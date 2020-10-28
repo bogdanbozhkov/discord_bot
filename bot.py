@@ -539,6 +539,8 @@ async def on_message(message):
     	else:
     		await message.channel.send("```" + "Русский: " + str(word) + "\nEnglish: " + str(data['text']) + "```")
 
+    await client.process_commands(message)
+
 #------------------------------------------------------------------------------
 
 #связь между этим файлом и дискордом
