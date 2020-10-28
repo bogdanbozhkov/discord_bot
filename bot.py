@@ -1,0 +1,880 @@
+import discord
+import random
+import requests
+import lxml
+from bs4 import BeautifulSoup
+from lxml import html
+from lxml import etree
+from lxml import html
+import os
+import re
+from discord.ext import commands
+import config
+<<<<<<< HEAD
+import youtube_dl
+from discord.voice_client import VoiceClient
+from discord.utils import get
+from discord import FFmpegPCMAudio
+from youtube_dl import YoutubeDL
+import urllib
+import urllib.request
+import urllib.parse, urllib.request, re
+
+#------------------------------------------------------------------------------
+
+#создание класса
+client = commands.Bot(command_prefix = '!', intents = discord.Intents.all())
+
+#------------------------------------------------------------------------------
+
+@client.event
+async def on_ready():
+	await client.change_presence(status=discord.Status.idle, activity=discord.Game('бравл старс'))
+	print('We have logged in as {0.user}'.format(client))
+	print('version 0.0.1')
+
+#------------------------------------------------------------------------------
+=======
+
+
+
+#создание класса 
+client = commands.Bot(command_prefix = '.')
+
+
+
+@client.event
+async def on_ready():
+	await client.change_presence(status=discord.Status.idle, activity=discord.Game('с твоей мамой'))
+	print('We have logged in as {0.user}'.format(client))
+	print('version 0.0.1')
+
+>>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
+
+#для работы с openweatherapi
+appid = "4c595575f1e5e536934d87d5a03fb491"
+list_of_nicknames = []
+
+<<<<<<< HEAD
+#------------------------------------------------------------------------------
+
+@client.event
+async def on_member_join(member):
+	await member.create_dm()
+	await member.dm_channel.send(f'Приветствую {member.name} на нашем сервере!')
+	role = discord.utils.get(member.guild.roles, id=int(688128825112264746))
+	await member.add_roles(role)
+
+#------------------------------------------------------------------------------
+
+@client.command(pass_context=True)
+async def r6(ctx, arg1, arg2):
+	if arg1 == "stats":
+		try:
+			nick_name = arg2
+			url_stat = 'https://r6.tracker.network/profile/pc/' + nick_name
+			r = requests.get(url_stat)
+			with open('stat.html', 'wt', encoding="utf-8") as output_file:
+				output_file.write(r.text)
+			with open('stat.html', 'r', encoding="utf-8") as f:
+				contents = f.read()
+			mmr_general = 1
+			count_classes = 0
+			soup = BeautifulSoup(contents, 'html.parser')
+			l = 0
+			for name_box in soup.find_all('div', {'class': 'trn-text--dimmed'}):
+				name = name_box.text.strip()
+				count_classes = count_classes + 1
+				name = name_box.text.strip()
+				if count_classes == 2:
+					mmr_general = name
+			count_classes = 0
+			mmr_general_rank = "asd"
+			mmr_general_kd = 0
+			mmr_general_wl = "asd"
+			matсhes_played = 0
+			time_played = "asd"
+			level = "asd"
+			wins = 0
+			losses = 0
+			headshots = "asd"
+			headshots_percent = "asd"
+			kills = "asd"
+			deaths = "asd"
+			rank_icon = "asd"
+
+
+			for name_box in soup.find_all('div', {'class': 'trn-defstat__value'}):
+				name = name_box.text.strip()
+				count_classes = count_classes + 1
+				if count_classes == 1:
+					level = name
+				if count_classes == 8:
+					kills = name
+				if count_classes == 19:
+					deaths = name
+				if count_classes == 20:
+					headshots = name
+				if count_classes == 17:
+					headshots_percent = name
+				if count_classes == 57:
+					mmr_general_rank = name
+				if count_classes == 18:
+					mmr_general_kd = name
+				if count_classes == 24:
+					time_played = name
+				if count_classes == 21:
+					wins = name
+				if count_classes == 22:
+					losses = name
+			count_classes = 0
+
+
+			for name_box in soup.find_all('div', {'class': 'trn-defstat__value'}):
+				name = name_box.text.strip()
+				count_classes = count_classes + 1
+				name = name_box.text.strip()
+				if count_classes == 25:
+					matсhes_played = name
+				if count_classes == 23:
+					mmr_general_wl = name
+
+
+			image_tags = soup.find_all('img')
+			count_classes = 0
+			avatar = "asd"
+			for image_tag in image_tags:
+				count_classes = count_classes + 1
+				if count_classes == 2:
+					avatar = image_tag.get('src')
+				if count_classes == 8:
+					rank_icon = image_tag.get('src')
+
+			image_tags = soup.find_all('img')
+			count_classes = 0
+			operator1 = "asd"
+			operator2 = "asd"
+			operator3 = "asd"
+			for image_tag in image_tags:
+				count_classes = count_classes + 1
+				if count_classes == 3:
+					operator1 = image_tag.get('title')
+				if count_classes == 4:
+					operator2 = image_tag.get('title')
+				if count_classes == 5:
+					operator3 = image_tag.get('title')
+
+
+			if mmr_general_rank.startswith("COPPER"):
+				embed=discord.Embed(title="Статистика", url="https://r6.tracker.network/profile/pc/" + nick_name, description='Матчей сыграно: ' + matсhes_played, color=0xd24b2d)
+			if mmr_general_rank.startswith("BRONZE"):
+				embed=discord.Embed(title="Статистика", url="https://r6.tracker.network/profile/pc/" + nick_name, description='Матчей сыграно: ' + matсhes_played, color=0xdd9c3e)
+			if mmr_general_rank.startswith("SILVER"):
+				embed=discord.Embed(title="Статистика", url="https://r6.tracker.network/profile/pc/" + nick_name, description='Матчей сыграно: ' + matсhes_played, color=0xcccccc)
+			if mmr_general_rank.startswith("GOLD"):
+				embed=discord.Embed(title="Статистика", url="https://r6.tracker.network/profile/pc/" + nick_name, description='Матчей сыграно: ' + matсhes_played, color=0xf5e95f)
+			if mmr_general_rank.startswith("PLATINUM"):
+				embed=discord.Embed(title="Статистика", url="https://r6.tracker.network/profile/pc/" + nick_name, description='Матчей сыграно: ' + matсhes_played, color=0x47d7d8)
+			if mmr_general_rank.startswith("DIAMOND"):
+				embed=discord.Embed(title="Статистика", url="https://r6.tracker.network/profile/pc/" + nick_name, description='Матчей сыграно: ' + matсhes_played, color=0xc1a6f7)
+			if mmr_general.startswith("Un"):
+				embed=discord.Embed(title="Статистика", url="https://r6.tracker.network/profile/pc/" + nick_name, description='Матчей сыграно: ' + matсhes_played, color=0x272525)
+			embed.set_author(name=nick_name, icon_url=avatar)
+			embed.set_thumbnail(url=avatar)
+			embed.add_field(name="Текущий ранг", value=mmr_general + " , " + mmr_general_rank, inline=False)
+			embed.add_field(name="K/D", value=mmr_general_kd, inline=True)
+			embed.add_field(name="W/L", value=mmr_general_wl, inline=True)
+			embed.add_field(name="Время", value=time_played, inline=False)
+			embed.add_field(name="Побед", value=wins, inline=True)
+			embed.add_field(name="Поражений", value=losses, inline=True)
+			embed.add_field(name="Любимые оперативники", value=operator1 + "   " + operator2 + "   " + operator3, inline=False)
+			#embed.add_field(name="Level", value=level, inline=True)
+			embed.add_field(name="Headshots", value=headshots + " (" + headshots_percent + ")", inline=False)
+			#embed.add_field(name="Kills", value=kills, inline=True)
+			embed.add_field(name="Deaths", value=deaths, inline=False)
+			embed.set_footer(text="-_-")
+			await ctx.send(embed=embed)
+			print(level)
+			print(kills)
+		except TypeError:
+			await ctx.send("```css\n Ошибка :(```")
+	else:
+		if(arg1 == "start"):
+			nick_name = arg2
+			url_stat = 'https://r6.tracker.network/profile/pc/' + nick_name
+			r = requests.get(url_stat)
+			with open('stat.html', 'wt', encoding="utf-8") as output_file:
+				output_file.write(r.text)
+			with open('stat.html', 'r', encoding="utf-8") as f:
+				contents = f.read()
+			mmr_general = 1
+			count_classes = 0
+			soup = BeautifulSoup(contents, 'lxml')
+			for name_box in soup.find_all('div', {'class': 'trn-text--dimmed'}):
+				name = name_box.text.strip()
+				count_classes = count_classes + 1
+				name = name_box.text.strip()
+				if count_classes == 2:
+					mmr_general = name
+			j = 0
+			n = 0
+			flag = 0
+			for i in list_of_nicknames:
+				if i == nick_name:
+					j = 1
+				if i == nick_name and list_of_nicknames[n+1] != mmr_general:
+					flag = n + 1
+					j = 1
+				n += 1
+			if j == 0:
+				list_of_nicknames.append(nick_name)
+				list_of_nicknames.append(mmr_general)
+			if flag != 0:
+				list_of_nicknames[flag] = mmr_general
+			await ctx.send("```python\n\'" + nick_name + "\', твои данные записаны```")
+
+			print(list_of_nicknames)
+		else:
+			if(arg1 == "check"):
+				try:
+					print("checking...")
+					nick_name = arg2
+					url_stat = 'https://r6.tracker.network/profile/pc/' + nick_name
+					r = requests.get(url_stat)
+					with open('stat.html', 'wt', encoding="utf-8") as output_file:
+						output_file.write(r.text)
+					with open('stat.html', 'r', encoding="utf-8") as f:
+						contents = f.read()
+					mmr_general_new = 1
+					count_classes = 0
+					soup = BeautifulSoup(contents, 'lxml')
+					for name_box in soup.find_all('div', {'class': 'trn-text--dimmed'}):
+						name = name_box.text.strip()
+						count_classes = count_classes + 1
+						name = name_box.text.strip()
+						if count_classes == 2:
+							mmr_general_new = name
+					mmr_general_int_new = []
+					dekitek = 1000
+					number_new = 0
+					for i in mmr_general_new:
+						try:
+							num = int(i)
+							mmr_general_int_new.append(num)
+						except ValueError:
+							continue
+					for i in mmr_general_int_new:
+						number_new = number_new + i * dekitek
+						dekitek /= 10
+
+					j = 0
+					mmr_general_old = 0
+					for i in list_of_nicknames:
+						if i == nick_name:
+							mmr_general_old = list_of_nicknames[j+1]
+						j += 1
+					mmr_general_int_old = []
+					for i in mmr_general_old:
+						try:
+							num = int(i)
+							mmr_general_int_old.append(num)
+						except ValueError:
+							continue
+					number_old = 0
+					dekitek = 1000
+					for i in mmr_general_int_old:
+						number_old = number_old + i * dekitek
+						dekitek /= 10
+					print(int(number_old))
+					print(int(number_new))
+					number_change = 0
+					if (int(number_old) > int(number_new)):
+						number_change = number_old - number_new
+						await ctx.send("```python\n\'" + nick_name + "\': MMR уменьшился на "  + str(number_change) + "```")
+					if (int(number_old) < int(number_new)):
+						number_change = number_new - number_old
+						await ctx.send("```python\n\'" + nick_name + "\': MMR увеличился на " + str(number_change) + "```")
+					if (int(number_old) == int(number_new)):
+						await ctx.send("```python\n\'" + nick_name + "\': MMR не изменился" + "```")
+				except Exception:
+					await ctx.send('```css\n Ошибка :( ```')
+			else:
+				await ctx.send("```css\n Ошибка :(```")
+
+#------------------------------------------------------------------------------
+
+players = {}
+
+@client.command(pass_context=True)
+async def join(ctx):
+	channel = ctx.message.author.voice.channel
+	if not channel:
+		await ctx.send("You are not connected to a voice channel")
+		return
+	voice = get(client.voice_clients, guild=ctx.guild)
+	if voice and voice.is_connected():
+		await voice.move_to(channel)
+	else:
+		voice = await channel.connect()
+
+#------------------------------------------------------------------------------
+
+@client.command()
+async def search(ctx, *, search):
+	query_string = urllib.parse.urlencode({
+	'search_query': search
+	})
+	htm_content = urllib.request.urlopen(
+	'http://www.youtube.com/results?' + query_string
+	)
+	search_results = re.findall(r"watch\?v=(\S{11})", htm_content.read().decode())
+	number_of_videos = 0
+	i = 0
+	for number_of_videos in range(3):
+		await ctx.send('http://www.youtube.com/watch?v=' + search_results[number_of_videos])
+	print(query_string)
+	print(search_results)
+	print(htm_content)
+
+
+#------------------------------------------------------------------------------
+
+@client.command(pass_context=True)
+async def play(ctx, url):
+	YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist':'True'}
+	FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
+	voice = get(client.voice_clients, guild=ctx.guild)
+
+	if not voice.is_playing():
+		with YoutubeDL(YDL_OPTIONS) as ydl:
+			info = ydl.extract_info(url, download=False)
+		URL = info['formats'][0]['url']
+		voice.play(FFmpegPCMAudio(URL, **FFMPEG_OPTIONS))
+		voice.is_playing()
+	else:
+		await ctx.send("Already playing song")
+		return
+#------------------------------------------------------------------------------
+
+
+@client.command(pass_context=True)
+async def pause(ctx):
+	voice = get(client.voice_clients, guild=ctx.guild)
+	voice.pause()
+
+@client.command(pass_context=True)
+async def stop(ctx):
+	voice = get(client.voice_clients, guild=ctx.guild)
+	voice.stop()
+
+@client.command(pass_context=True)
+async def resume(ctx):
+	voice = get(client.voice_clients, guild=ctx.guild)
+	voice.resume()
+
+@client.command(pass_context=True)
+async def leave(ctx):
+	await ctx.voice_client.disconnect()
+
+#------------------------------------------------------------------------------
+=======
+
+
+>>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
+
+#ожидание ивента
+@client.event
+async def on_message(message):
+
+<<<<<<< HEAD
+    if message.author == client.user:
+        return
+
+#-------------------------------------------------------------------------------
+=======
+
+    if message.author == client.user:
+        return
+
+
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+>>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
+
+#простой ответ на оскорбление
+    if 'аст' in message.content and 'шлюха' in message.content:
+    	await message.channel.send('ты ебать спермобак я твой рот ебала')
+
+<<<<<<< HEAD
+#-------------------------------------------------------------------------------
+=======
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+>>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
+
+#приветствие
+    if 'Настя.привет' in message.content:
+        await message.channel.send('Прив всем в этом чатике :3', tts = True)
+        await message.channel.send('Чтобы посмотреть, что я умею, напишите ```fix\nНастя.команды```')
+
+<<<<<<< HEAD
+#-------------------------------------------------------------------------------
+
+#список функций
+    if message.content.startswith('Настя.команды'):
+    	await message.channel.send('```python\n>>> Список команд:\n[1] Настя.музыка\n[2] Настя.анекдот\n[3] Настя.курс валюты\n[4] Настя.коронавирус\n[5] Настя.погода <Город> (на английском языке)\n[6] Настя.радуга\n[7] Настя.перевод <выражение на русском или английском> ```')
+
+#-------------------------------------------------------------------------------
+
+#отправка рандомной фотки трапа из папки
+    if 'Настя.музыка' in message.content:
+    	await message.channel.send("```python\n>>> О команде Настя.музыка \n[1] !join - пригласить в голосовой канал \n[2] !play <ссылка видео youtube> -  включить трек \n[3] !pause  -  пауза \n[4] !resume - продолжить \n[5] !stop - остановить \n[6] !leave - отсоединить```")
+
+#-------------------------------------------------------------------------------
+=======
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+#список функций
+    if message.content.startswith('Настя.команды'):
+    	await message.channel.send('```python\n>>> Список команд:\n[1] Настя.кинь трапа\n[2] Настя.анекдот\n[3] Настя.курс валюты\n[4] Настя.коронавирус\n[5] Настя.погода <Город> (на английском языке)\n[6] Настя.радуга\n[7] Настя.перевод <выражение на русском или английском> ```')
+    
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+#отправка рандомной фотки трапа из папки
+    if 'Настя.кинь трапа' in message.content:
+    	image = random.choice(os.listdir("trap/"))
+    	await message.channel.send(file=discord.File("trap/" + image))
+
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+>>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
+
+#отправка сисек дарины из трапа
+    if 'Настя.сиськи дарины' in message.content:
+    	image = random.choice(os.listdir("darina/"))
+    	await message.channel.send(file=discord.File("darina/" + image))
+<<<<<<< HEAD
+
+#-------------------------------------------------------------------------------
+=======
+    
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+>>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
+
+#ответ на спасибо
+    if message.content.startswith('спасибо') or message.content.startswith('Cпасибо'):#исправить для большего кол-ва реакций
+    	await message.channel.send('^_^')
+<<<<<<< HEAD
+
+#-------------------------------------------------------------------------------
+=======
+   
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+>>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
+
+#да -> пизда
+    if (message.content == 'да' or message.content == 'Да'):
+    	await message.channel.send('пизда')
+<<<<<<< HEAD
+
+#-------------------------------------------------------------------------------
+=======
+    
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+>>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
+
+#отправка анекдота с сайта anektod-z.ru
+    if 'Настя.анекдот' in message.content:
+    	url = 'https://anekdot-z.ru/index?sort_by=RAND()'
+    	r = requests.get(url)
+    	with open('test.html', 'wt', encoding="utf-8") as output_file:
+    		output_file.write(r.text)
+    	with open('test.html', 'r', encoding="utf-8") as f:
+    		contents = f.read()
+    		soup = BeautifulSoup(contents, 'lxml')
+    		items = soup.find_all('div', {'class': 'anekdot-content'})
+    		for item in items:
+    			joke = soup.find('div', {'class': 'anekdot-content'}).text
+    			await message.channel.send('```' + joke + '```')
+    			break
+<<<<<<< HEAD
+
+#-------------------------------------------------------------------------------
+
+    if message.content == "Настя.радуга":
+    	await message.channel.send("```python\n>>> О команде Настя.радуга \n[1] !r6 stats <никнейм> - подробности об игроке \n[2] !r6 start <никнейм> - отсчет ммр с текущего момента \n[3] !r6 check <никнейм> - подсчет проебанного ммр```")
+
+#-------------------------------------------------------------------------------
+=======
+    
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+    if message.content.startswith("Настя.радуга stats "):
+    	try:
+    		nick_name = message.content[19:len(message.content)]
+    		url_stat = 'https://r6.tracker.network/profile/pc/' + nick_name
+    		r = requests.get(url_stat)
+    		with open('stat.html', 'wt', encoding="utf-8") as output_file:
+    			output_file.write(r.text)
+    		with open('stat.html', 'r', encoding="utf-8") as f:
+    			contents = f.read()
+    		mmr_general = 1
+    		count_classes = 0
+    		soup = BeautifulSoup(contents, 'html.parser')
+    		l = 0
+    		for name_box in soup.find_all('div', {'class': 'trn-text--dimmed'}):
+    			name = name_box.text.strip()
+    			count_classes = count_classes + 1
+    			name = name_box.text.strip()
+    			if count_classes == 2:
+    				mmr_general = name
+    		count_classes = 0
+    		mmr_general_rank = "asd"
+    		mmr_general_kd = 0
+    		mmr_general_wl = "asd"
+    		matсhes_played = 0
+    		for name_box in soup.find_all('div', {'class': 'trn-defstat__value'}):
+    			name = name_box.text.strip()
+    			count_classes = count_classes + 1
+    			name = name_box.text.strip()
+    			if count_classes == 57:
+    				mmr_general_rank = name
+    			if count_classes == 49:
+    				mmr_general_kd = name
+    			
+    		count_classes = 0
+    		for name_box in soup.find_all('div', {'class': 'trn-defstat__value'}):
+    			name = name_box.text.strip()
+    			count_classes = count_classes + 1
+    			name = name_box.text.strip()
+    			if count_classes == 25:
+    				matсhes_played = name
+    			if count_classes == 23:
+    				mmr_general_wl = name
+
+    		await message.channel.send('```python\nИгрок: ' + nick_name + "\n" + matсhes_played + ' матчей сыграно' +'\nRANK:  ' + mmr_general_rank + ", " + mmr_general + '\nK/D:   ' + mmr_general_kd + '\nWins:  ' + mmr_general_wl +'```')
+    	except TypeError:
+    		await message.channel.send("```css\n Ошибка :(```")
+
+
+
+    if message.content.startswith("Настя.радуга start "):
+    	nick_name = message.content[19:len(message.content)]
+    	url_stat = 'https://r6.tracker.network/profile/pc/' + nick_name
+    	r = requests.get(url_stat)
+    	with open('stat.html', 'wt', encoding="utf-8") as output_file:
+    		output_file.write(r.text)
+    	with open('stat.html', 'r', encoding="utf-8") as f:
+    		contents = f.read()
+    	mmr_general = 1
+    	count_classes = 0
+    	soup = BeautifulSoup(contents, 'lxml')
+    	for name_box in soup.find_all('div', {'class': 'trn-text--dimmed'}):
+    		name = name_box.text.strip()
+    		count_classes = count_classes + 1
+    		name = name_box.text.strip()
+    		if count_classes == 2:
+    			mmr_general = name
+    	j = 0
+    	n = 0
+    	flag = 0
+    	for i in list_of_nicknames:
+    		if i == nick_name:
+    			j = 1
+    		if i == nick_name and list_of_nicknames[n+1] != mmr_general:
+    			flag = n + 1
+    			j = 1
+    		n += 1
+    	if j == 0:
+    		list_of_nicknames.append(nick_name)
+    		list_of_nicknames.append(mmr_general)
+    	if flag != 0:
+    		list_of_nicknames[flag] = mmr_general
+    	await message.channel.send("```python\n\'" + nick_name + "\', твои данные записаны```")
+    	
+    	print(list_of_nicknames)
+
+
+
+
+    if message.content.startswith("Настя.радуга check "):
+    	try:
+    		print("checking...")
+    		nick_name = message.content[19:len(message.content)]
+	    	url_stat = 'https://r6.tracker.network/profile/pc/' + nick_name
+	    	r = requests.get(url_stat)
+	    	with open('stat.html', 'wt', encoding="utf-8") as output_file:
+	    		output_file.write(r.text)
+    		with open('stat.html', 'r', encoding="utf-8") as f:
+    			contents = f.read()
+    		mmr_general_new = 1
+    		count_classes = 0
+    		soup = BeautifulSoup(contents, 'lxml')
+	    	for name_box in soup.find_all('div', {'class': 'trn-text--dimmed'}):
+    			name = name_box.text.strip()
+    			count_classes = count_classes + 1
+    			name = name_box.text.strip()
+    			if count_classes == 2:
+    				mmr_general_new = name
+    		mmr_general_int_new = []
+    		dekitek = 1000
+    		number_new = 0
+    		for i in mmr_general_new:
+    			try:
+    				num = int(i)
+    				mmr_general_int_new.append(num)
+    			except ValueError:
+    				continue
+    		for i in mmr_general_int_new:
+    			number_new = number_new + i * dekitek
+    			dekitek /= 10
+
+    		j = 0
+    		mmr_general_old = 0
+    		for i in list_of_nicknames:
+    			if i == nick_name:
+    				mmr_general_old = list_of_nicknames[j+1]
+    			j += 1
+    		mmr_general_int_old = []
+    		for i in mmr_general_old:
+    			try:
+    				num = int(i)
+    				mmr_general_int_old.append(num)
+    			except ValueError:
+    				continue
+    		number_old = 0
+    		dekitek = 1000
+    		for i in mmr_general_int_old:
+    			number_old = number_old + i * dekitek
+    			dekitek /= 10
+    		print(int(number_old))
+    		print(int(number_new))
+    		number_change = 0
+    		if (int(number_old) > int(number_new)):
+    			number_change = number_old - number_new
+    			await message.channel.send("```python\n\'" + nick_name + "\': MMR уменьшился на "  + str(number_change) + "```")
+    		if (int(number_old) < int(number_new)):
+    			number_change = number_new - number_old
+    			await message.channel.send("```python\n\'" + nick_name + "\': MMR увеличился на " + str(number_change) + "```")
+    		if (int(number_old) == int(number_new)):
+    			await message.channel.send("```python\n\'" + nick_name + "\': MMR не изменился" + "```")		
+    	except Exception:
+    		await message.channel.send('```css\n Ошибка :( ```')
+
+
+
+    if message.content == "Настя.радуга":
+    	await message.channel.send("```python\n>>> О команде Настя.радуга \n[1] Настя.радуга stats <никнейм> - подробности об игроке \n[2] Настя.радуга start <никнейм> - отсчет ммр с текущего момента \n[3] Настя.радуга check <никнейм> - подсчет проебанного ммр```")
+#----------------------------------------------------------------------------------------------------------------------------------------------
+
+		
+
+#	if message.content == "Настя.радуга":
+#		await message.channel.send("```Подробно о команде Настя.радуга \n[1]Настя.радуга ммр <никнейм> - подробности об ммр \n[2]Настя.радуга начинаем - отсчет ммр с текущего момента [3]\nНастя.радуга посчитай - подсчет проебанного ммр")
+
+
+#отправка лежать плюс сосать после каждого сообщения с вероятностью 1/100
+#    if 'с' in message.content or 'a' in message.content or 'р' in message.content:
+ #   	rand_1 = random.randint(0,10)
+  #  	rand_2 = random.randint(0,10)
+   # 	if rand_1 == rand_2:
+    #		await message.channel.send('лежать плюс сосать')
+
+
+
+>>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
+
+#показывает статистику коронавируса
+    if 'Настя.коронавирус' in message.content:
+    	url_covid = 'https://стопкоронавирус.рф'
+    	r = requests.get(url_covid)
+    	with open('covid.html', 'wt', encoding="utf-8") as output_file:
+    		output_file.write(r.text)
+    	with open('covid.html', 'r', encoding="utf-8") as f:
+    		contents = f.read()
+    		covid_general = 'asd'
+    		covid_death = 'asd'
+    		covid_last_day = 'asd'
+    		covid_recovered = 'asd'
+    		covid_tests = 'asd'
+    		soup = BeautifulSoup(contents, 'lxml')
+    		count_classes = 0
+<<<<<<< HEAD
+    		#поиск по всем классам веб страницы с указанным именем
+=======
+    		#поиск по всем классам веб страницы с указанным именем 
+>>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
+    		for name_box in soup.find_all('div', {'class': 'cv-countdown__item-value'}):
+    			name = name_box.text.strip()
+    			count_classes = count_classes + 1
+    			if count_classes == 1:
+    				covid_tests = name
+    			if count_classes == 2:
+    				covid_general = name
+    			if count_classes == 3:
+    				covid_last_day = name
+    			if count_classes == 4:
+    				covid_recovered = name
+    			if count_classes == 5:
+    				covid_death = name
+<<<<<<< HEAD
+
+    		for actual in soup.find_all('div', {'class': 'cv-banner__description'}):
+    			name_actual = actual.text.strip()
+
+    		embed=discord.Embed(title="стопкоронавирус.рф", url="https://стопкоронавирус.рф", description=name_actual, color=0x387580)
+    		embed.set_author(name="Оперативные данные")
+    		embed.set_thumbnail(url="https://dalee.cdnvideo.ru/stopcoronavirus.rf/img/logo.svg")
+    		embed.add_field(name="Проведено тестов", value=covid_tests, inline=False)
+    		embed.add_field(name="Общее число случаев", value=covid_general, inline=False)
+    		embed.add_field(name="Общее число случаев", value=covid_death, inline=False)
+    		embed.add_field(name="Человек выздоровело", value=covid_recovered, inline=False)
+    		embed.add_field(name="Случая заболевания за последние сутки", value=covid_last_day, inline=False)
+    		await message.channel.send(embed=embed)
+    		#await message.channel.send("```css\n[" + name_actual + "]\nПроведено тестов " + covid_tests + "\nОбщее число случаев - " + covid_general + "\nЧеловек умерло - " + covid_death + "\nЧеловек выздоровело - " + covid_recovered + "\nСлучая заболевания за последние сутки - " + covid_last_day +'```')
+
+#-------------------------------------------------------------------------------
+=======
+    		
+    		for actual in soup.find_all('div', {'class': 'cv-banner__description'}):
+    			name_actual = actual.text.strip()
+    		
+    		await message.channel.send("```css\n[" + name_actual + "]\nПроведено тестов " + covid_tests + "\nОбщее число случаев - " + covid_general + "\nЧеловек умерло - " + covid_death + "\nЧеловек выздоровело - " + covid_recovered + "\nСлучая заболевания за последние сутки - " + covid_last_day +'```')
+    		
+
+
+
+#--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+>>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
+
+#отправка погоды в зависимости от указанного в сообщении города
+    if message.content.startswith("Настя.погода"):
+    	number_of_letters = 0
+    	space = False
+    	for letter in message.content:
+    		number_of_letters = number_of_letters + 1
+    	city_name = message.content[12:number_of_letters]
+    	try:
+    		res = requests.get("http://api.openweathermap.org/data/2.5/weather", params={'q': city_name, 'units': 'metric', 'lang': 'ru', 'APPID': appid})
+    		data = res.json()
+    		weather_temperature = data['main']['temp']
+    		weather_conditions = data['weather'][0]['description']
+    		weather_wind = data['wind']['speed']
+    		city_id = data['name']
+    		weather_sum = str(city_id) + ": " + str(weather_temperature) + "°C" + ", " + str(weather_conditions) + ", ветер: " + str(weather_wind) + " м/с"
+    		await message.channel.send('```' + weather_sum + '```')
+    	except Exception:
+    		await message.channel.send('```css\n Ошибка :( ```')
+
+<<<<<<< HEAD
+#------------------------------------------------------------------------------
+=======
+
+>>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
+
+    #отправка курса валюты
+    if 'Настя.курс валюты' in message.content:
+    	res_usd = requests.get("https://api.exchangeratesapi.io/latest?base=USD")
+    	data_usd = res_usd.json()
+    	dollar = data_usd['rates']['RUB']
+    	print(dollar)
+    	res_eur = requests.get("https://api.exchangeratesapi.io/latest?base=EUR")
+    	data_eur = res_eur.json()
+    	euro = data_eur['rates']['RUB']
+    	res_bitc = requests.get('https://api.coindesk.com/v1/bpi/currentprice.json')
+    	data_bitc = res_bitc.json()
+    	bitc_to_usd = data_bitc['bpi']['USD']['rate_float']
+    	bitc_to_rub = int(bitc_to_usd) * int(dollar)
+    	print(dollar)
+    	print(euro)
+    	print(bitc_to_rub)
+    	await message.channel.send('```python\nКурс евро - ' + str(euro) + " Российский рубль" + '\nКурс доллара - ' + str(dollar) + " Российский рубль" + '\nКурс биткоина - ' + str(bitc_to_rub) + " Российский рубль" +'```')
+
+<<<<<<< HEAD
+#------------------------------------------------------------------------------
+=======
+
+
+
+>>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
+
+    if message.content.startswith("Настя.перевод"):
+    	word = message.content[14:len(message.content)]
+    	if re.search(r'[A-Za-z]', word):
+    		lang = 'en-ru'
+    	else:
+    		lang = 'ru-en'
+<<<<<<< HEAD
+    	url = 'https://translate.yandex.net/api/v1.5/tr.json/translate?'
+    	key = 'trnsl.1.1.20200504T134707Z.8fb25d75dfc780fd.a9c32b6ee59a580b7e042d13884e348fe0b95783'
+    	text = word
+    	res = requests.post(url, data={'key': key, 'text': text, 'lang': lang})
+=======
+    	url = 'https://translate.yandex.net/api/v1.5/tr.json/translate?' 
+    	key = 'trnsl.1.1.20200504T134707Z.8fb25d75dfc780fd.a9c32b6ee59a580b7e042d13884e348fe0b95783'
+    	text = word
+    	res = requests.post(url, data={'key': key, 'text': text, 'lang': lang}) 
+>>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
+    	data = res.json()
+    	translate = data['text']
+    	if lang == 'en-ru':
+    		await message.channel.send("```" + "English: " + str(word) + "\nРусский: " + str(data['text']) + "```")
+    	else:
+    		await message.channel.send("```" + "Русский: " + str(word) + "\nEnglish: " + str(data['text']) + "```")
+
+<<<<<<< HEAD
+#------------------------------------------------------------------------------
+
+    if "show" in message.content:
+    	embed = discord.Embed()
+    	embed.add_field(name="undefined", value="undefined", inline=False)
+    	await message.channel.send(embed=embed)
+    await client.process_commands(message)
+
+#------------------------------------------------------------------------------
+
+#связь между этим файлом и дискордом
+client.run(config.TOKEN)
+=======
+    	
+print("fuck it works again")
+#связь между этим файлом и дискордом
+client.run(config.TOKEN)
+
+>>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
