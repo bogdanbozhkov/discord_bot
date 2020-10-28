@@ -10,7 +10,6 @@ import os
 import re
 from discord.ext import commands
 import config
-<<<<<<< HEAD
 import youtube_dl
 from discord.voice_client import VoiceClient
 from discord.utils import get
@@ -34,28 +33,11 @@ async def on_ready():
 	print('version 0.0.1')
 
 #------------------------------------------------------------------------------
-=======
-
-
-
-#создание класса 
-client = commands.Bot(command_prefix = '.')
-
-
-
-@client.event
-async def on_ready():
-	await client.change_presence(status=discord.Status.idle, activity=discord.Game('с твоей мамой'))
-	print('We have logged in as {0.user}'.format(client))
-	print('version 0.0.1')
-
->>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
 
 #для работы с openweatherapi
 appid = "4c595575f1e5e536934d87d5a03fb491"
 list_of_nicknames = []
 
-<<<<<<< HEAD
 #------------------------------------------------------------------------------
 
 @client.event
@@ -78,6 +60,7 @@ async def r6(ctx, arg1, arg2):
 				output_file.write(r.text)
 			with open('stat.html', 'r', encoding="utf-8") as f:
 				contents = f.read()
+			os.remove("stat.html")
 			mmr_general = 1
 			count_classes = 0
 			soup = BeautifulSoup(contents, 'html.parser')
@@ -300,7 +283,6 @@ async def r6(ctx, arg1, arg2):
 					await ctx.send('```css\n Ошибка :( ```')
 			else:
 				await ctx.send("```css\n Ошибка :(```")
-
 #------------------------------------------------------------------------------
 
 players = {}
@@ -377,52 +359,27 @@ async def leave(ctx):
 	await ctx.voice_client.disconnect()
 
 #------------------------------------------------------------------------------
-=======
-
-
->>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
 
 #ожидание ивента
 @client.event
 async def on_message(message):
 
-<<<<<<< HEAD
     if message.author == client.user:
         return
 
 #-------------------------------------------------------------------------------
-=======
-
-    if message.author == client.user:
-        return
-
-
-
-
-#--------------------------------------------------------------------------------------------------------------------------------------------
-
-
->>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
 
 #простой ответ на оскорбление
     if 'аст' in message.content and 'шлюха' in message.content:
     	await message.channel.send('ты ебать спермобак я твой рот ебала')
 
-<<<<<<< HEAD
 #-------------------------------------------------------------------------------
-=======
-
-#--------------------------------------------------------------------------------------------------------------------------------------------
-
-
->>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
 
 #приветствие
     if 'Настя.привет' in message.content:
         await message.channel.send('Прив всем в этом чатике :3', tts = True)
         await message.channel.send('Чтобы посмотреть, что я умею, напишите ```fix\nНастя.команды```')
 
-<<<<<<< HEAD
 #-------------------------------------------------------------------------------
 
 #список функций
@@ -436,75 +393,25 @@ async def on_message(message):
     	await message.channel.send("```python\n>>> О команде Настя.музыка \n[1] !join - пригласить в голосовой канал \n[2] !play <ссылка видео youtube> -  включить трек \n[3] !pause  -  пауза \n[4] !resume - продолжить \n[5] !stop - остановить \n[6] !leave - отсоединить```")
 
 #-------------------------------------------------------------------------------
-=======
-
-
-#--------------------------------------------------------------------------------------------------------------------------------------------
-
-
-#список функций
-    if message.content.startswith('Настя.команды'):
-    	await message.channel.send('```python\n>>> Список команд:\n[1] Настя.кинь трапа\n[2] Настя.анекдот\n[3] Настя.курс валюты\n[4] Настя.коронавирус\n[5] Настя.погода <Город> (на английском языке)\n[6] Настя.радуга\n[7] Настя.перевод <выражение на русском или английском> ```')
-    
-
-
-#--------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-#отправка рандомной фотки трапа из папки
-    if 'Настя.кинь трапа' in message.content:
-    	image = random.choice(os.listdir("trap/"))
-    	await message.channel.send(file=discord.File("trap/" + image))
-
-
-
-#--------------------------------------------------------------------------------------------------------------------------------------------
-
-
->>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
 
 #отправка сисек дарины из трапа
     if 'Настя.сиськи дарины' in message.content:
     	image = random.choice(os.listdir("darina/"))
     	await message.channel.send(file=discord.File("darina/" + image))
-<<<<<<< HEAD
 
 #-------------------------------------------------------------------------------
-=======
-    
-
-
-#--------------------------------------------------------------------------------------------------------------------------------------------
-
->>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
 
 #ответ на спасибо
     if message.content.startswith('спасибо') or message.content.startswith('Cпасибо'):#исправить для большего кол-ва реакций
     	await message.channel.send('^_^')
-<<<<<<< HEAD
 
 #-------------------------------------------------------------------------------
-=======
-   
-
-
-#--------------------------------------------------------------------------------------------------------------------------------------------
-
->>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
 
 #да -> пизда
     if (message.content == 'да' or message.content == 'Да'):
     	await message.channel.send('пизда')
-<<<<<<< HEAD
 
 #-------------------------------------------------------------------------------
-=======
-    
-
-#--------------------------------------------------------------------------------------------------------------------------------------------
-
->>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
 
 #отправка анекдота с сайта anektod-z.ru
     if 'Настя.анекдот' in message.content:
@@ -520,203 +427,13 @@ async def on_message(message):
     			joke = soup.find('div', {'class': 'anekdot-content'}).text
     			await message.channel.send('```' + joke + '```')
     			break
-<<<<<<< HEAD
-
+    	os.remove("test.html")
 #-------------------------------------------------------------------------------
 
     if message.content == "Настя.радуга":
     	await message.channel.send("```python\n>>> О команде Настя.радуга \n[1] !r6 stats <никнейм> - подробности об игроке \n[2] !r6 start <никнейм> - отсчет ммр с текущего момента \n[3] !r6 check <никнейм> - подсчет проебанного ммр```")
 
 #-------------------------------------------------------------------------------
-=======
-    
-
-
-#--------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-#--------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-    if message.content.startswith("Настя.радуга stats "):
-    	try:
-    		nick_name = message.content[19:len(message.content)]
-    		url_stat = 'https://r6.tracker.network/profile/pc/' + nick_name
-    		r = requests.get(url_stat)
-    		with open('stat.html', 'wt', encoding="utf-8") as output_file:
-    			output_file.write(r.text)
-    		with open('stat.html', 'r', encoding="utf-8") as f:
-    			contents = f.read()
-    		mmr_general = 1
-    		count_classes = 0
-    		soup = BeautifulSoup(contents, 'html.parser')
-    		l = 0
-    		for name_box in soup.find_all('div', {'class': 'trn-text--dimmed'}):
-    			name = name_box.text.strip()
-    			count_classes = count_classes + 1
-    			name = name_box.text.strip()
-    			if count_classes == 2:
-    				mmr_general = name
-    		count_classes = 0
-    		mmr_general_rank = "asd"
-    		mmr_general_kd = 0
-    		mmr_general_wl = "asd"
-    		matсhes_played = 0
-    		for name_box in soup.find_all('div', {'class': 'trn-defstat__value'}):
-    			name = name_box.text.strip()
-    			count_classes = count_classes + 1
-    			name = name_box.text.strip()
-    			if count_classes == 57:
-    				mmr_general_rank = name
-    			if count_classes == 49:
-    				mmr_general_kd = name
-    			
-    		count_classes = 0
-    		for name_box in soup.find_all('div', {'class': 'trn-defstat__value'}):
-    			name = name_box.text.strip()
-    			count_classes = count_classes + 1
-    			name = name_box.text.strip()
-    			if count_classes == 25:
-    				matсhes_played = name
-    			if count_classes == 23:
-    				mmr_general_wl = name
-
-    		await message.channel.send('```python\nИгрок: ' + nick_name + "\n" + matсhes_played + ' матчей сыграно' +'\nRANK:  ' + mmr_general_rank + ", " + mmr_general + '\nK/D:   ' + mmr_general_kd + '\nWins:  ' + mmr_general_wl +'```')
-    	except TypeError:
-    		await message.channel.send("```css\n Ошибка :(```")
-
-
-
-    if message.content.startswith("Настя.радуга start "):
-    	nick_name = message.content[19:len(message.content)]
-    	url_stat = 'https://r6.tracker.network/profile/pc/' + nick_name
-    	r = requests.get(url_stat)
-    	with open('stat.html', 'wt', encoding="utf-8") as output_file:
-    		output_file.write(r.text)
-    	with open('stat.html', 'r', encoding="utf-8") as f:
-    		contents = f.read()
-    	mmr_general = 1
-    	count_classes = 0
-    	soup = BeautifulSoup(contents, 'lxml')
-    	for name_box in soup.find_all('div', {'class': 'trn-text--dimmed'}):
-    		name = name_box.text.strip()
-    		count_classes = count_classes + 1
-    		name = name_box.text.strip()
-    		if count_classes == 2:
-    			mmr_general = name
-    	j = 0
-    	n = 0
-    	flag = 0
-    	for i in list_of_nicknames:
-    		if i == nick_name:
-    			j = 1
-    		if i == nick_name and list_of_nicknames[n+1] != mmr_general:
-    			flag = n + 1
-    			j = 1
-    		n += 1
-    	if j == 0:
-    		list_of_nicknames.append(nick_name)
-    		list_of_nicknames.append(mmr_general)
-    	if flag != 0:
-    		list_of_nicknames[flag] = mmr_general
-    	await message.channel.send("```python\n\'" + nick_name + "\', твои данные записаны```")
-    	
-    	print(list_of_nicknames)
-
-
-
-
-    if message.content.startswith("Настя.радуга check "):
-    	try:
-    		print("checking...")
-    		nick_name = message.content[19:len(message.content)]
-	    	url_stat = 'https://r6.tracker.network/profile/pc/' + nick_name
-	    	r = requests.get(url_stat)
-	    	with open('stat.html', 'wt', encoding="utf-8") as output_file:
-	    		output_file.write(r.text)
-    		with open('stat.html', 'r', encoding="utf-8") as f:
-    			contents = f.read()
-    		mmr_general_new = 1
-    		count_classes = 0
-    		soup = BeautifulSoup(contents, 'lxml')
-	    	for name_box in soup.find_all('div', {'class': 'trn-text--dimmed'}):
-    			name = name_box.text.strip()
-    			count_classes = count_classes + 1
-    			name = name_box.text.strip()
-    			if count_classes == 2:
-    				mmr_general_new = name
-    		mmr_general_int_new = []
-    		dekitek = 1000
-    		number_new = 0
-    		for i in mmr_general_new:
-    			try:
-    				num = int(i)
-    				mmr_general_int_new.append(num)
-    			except ValueError:
-    				continue
-    		for i in mmr_general_int_new:
-    			number_new = number_new + i * dekitek
-    			dekitek /= 10
-
-    		j = 0
-    		mmr_general_old = 0
-    		for i in list_of_nicknames:
-    			if i == nick_name:
-    				mmr_general_old = list_of_nicknames[j+1]
-    			j += 1
-    		mmr_general_int_old = []
-    		for i in mmr_general_old:
-    			try:
-    				num = int(i)
-    				mmr_general_int_old.append(num)
-    			except ValueError:
-    				continue
-    		number_old = 0
-    		dekitek = 1000
-    		for i in mmr_general_int_old:
-    			number_old = number_old + i * dekitek
-    			dekitek /= 10
-    		print(int(number_old))
-    		print(int(number_new))
-    		number_change = 0
-    		if (int(number_old) > int(number_new)):
-    			number_change = number_old - number_new
-    			await message.channel.send("```python\n\'" + nick_name + "\': MMR уменьшился на "  + str(number_change) + "```")
-    		if (int(number_old) < int(number_new)):
-    			number_change = number_new - number_old
-    			await message.channel.send("```python\n\'" + nick_name + "\': MMR увеличился на " + str(number_change) + "```")
-    		if (int(number_old) == int(number_new)):
-    			await message.channel.send("```python\n\'" + nick_name + "\': MMR не изменился" + "```")		
-    	except Exception:
-    		await message.channel.send('```css\n Ошибка :( ```')
-
-
-
-    if message.content == "Настя.радуга":
-    	await message.channel.send("```python\n>>> О команде Настя.радуга \n[1] Настя.радуга stats <никнейм> - подробности об игроке \n[2] Настя.радуга start <никнейм> - отсчет ммр с текущего момента \n[3] Настя.радуга check <никнейм> - подсчет проебанного ммр```")
-#----------------------------------------------------------------------------------------------------------------------------------------------
-
-		
-
-#	if message.content == "Настя.радуга":
-#		await message.channel.send("```Подробно о команде Настя.радуга \n[1]Настя.радуга ммр <никнейм> - подробности об ммр \n[2]Настя.радуга начинаем - отсчет ммр с текущего момента [3]\nНастя.радуга посчитай - подсчет проебанного ммр")
-
-
-#отправка лежать плюс сосать после каждого сообщения с вероятностью 1/100
-#    if 'с' in message.content or 'a' in message.content or 'р' in message.content:
- #   	rand_1 = random.randint(0,10)
-  #  	rand_2 = random.randint(0,10)
-   # 	if rand_1 == rand_2:
-    #		await message.channel.send('лежать плюс сосать')
-
-
-
->>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
 
 #показывает статистику коронавируса
     if 'Настя.коронавирус' in message.content:
@@ -733,11 +450,7 @@ async def on_message(message):
     		covid_tests = 'asd'
     		soup = BeautifulSoup(contents, 'lxml')
     		count_classes = 0
-<<<<<<< HEAD
     		#поиск по всем классам веб страницы с указанным именем
-=======
-    		#поиск по всем классам веб страницы с указанным именем 
->>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
     		for name_box in soup.find_all('div', {'class': 'cv-countdown__item-value'}):
     			name = name_box.text.strip()
     			count_classes = count_classes + 1
@@ -751,7 +464,6 @@ async def on_message(message):
     				covid_recovered = name
     			if count_classes == 5:
     				covid_death = name
-<<<<<<< HEAD
 
     		for actual in soup.find_all('div', {'class': 'cv-banner__description'}):
     			name_actual = actual.text.strip()
@@ -766,22 +478,8 @@ async def on_message(message):
     		embed.add_field(name="Случая заболевания за последние сутки", value=covid_last_day, inline=False)
     		await message.channel.send(embed=embed)
     		#await message.channel.send("```css\n[" + name_actual + "]\nПроведено тестов " + covid_tests + "\nОбщее число случаев - " + covid_general + "\nЧеловек умерло - " + covid_death + "\nЧеловек выздоровело - " + covid_recovered + "\nСлучая заболевания за последние сутки - " + covid_last_day +'```')
-
+    	os.remove("covid.html")
 #-------------------------------------------------------------------------------
-=======
-    		
-    		for actual in soup.find_all('div', {'class': 'cv-banner__description'}):
-    			name_actual = actual.text.strip()
-    		
-    		await message.channel.send("```css\n[" + name_actual + "]\nПроведено тестов " + covid_tests + "\nОбщее число случаев - " + covid_general + "\nЧеловек умерло - " + covid_death + "\nЧеловек выздоровело - " + covid_recovered + "\nСлучая заболевания за последние сутки - " + covid_last_day +'```')
-    		
-
-
-
-#--------------------------------------------------------------------------------------------------------------------------------------------
-
-
->>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
 
 #отправка погоды в зависимости от указанного в сообщении города
     if message.content.startswith("Настя.погода"):
@@ -802,11 +500,7 @@ async def on_message(message):
     	except Exception:
     		await message.channel.send('```css\n Ошибка :( ```')
 
-<<<<<<< HEAD
 #------------------------------------------------------------------------------
-=======
-
->>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
 
     #отправка курса валюты
     if 'Настя.курс валюты' in message.content:
@@ -826,13 +520,7 @@ async def on_message(message):
     	print(bitc_to_rub)
     	await message.channel.send('```python\nКурс евро - ' + str(euro) + " Российский рубль" + '\nКурс доллара - ' + str(dollar) + " Российский рубль" + '\nКурс биткоина - ' + str(bitc_to_rub) + " Российский рубль" +'```')
 
-<<<<<<< HEAD
 #------------------------------------------------------------------------------
-=======
-
-
-
->>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
 
     if message.content.startswith("Настя.перевод"):
     	word = message.content[14:len(message.content)]
@@ -840,17 +528,10 @@ async def on_message(message):
     		lang = 'en-ru'
     	else:
     		lang = 'ru-en'
-<<<<<<< HEAD
     	url = 'https://translate.yandex.net/api/v1.5/tr.json/translate?'
     	key = 'trnsl.1.1.20200504T134707Z.8fb25d75dfc780fd.a9c32b6ee59a580b7e042d13884e348fe0b95783'
     	text = word
     	res = requests.post(url, data={'key': key, 'text': text, 'lang': lang})
-=======
-    	url = 'https://translate.yandex.net/api/v1.5/tr.json/translate?' 
-    	key = 'trnsl.1.1.20200504T134707Z.8fb25d75dfc780fd.a9c32b6ee59a580b7e042d13884e348fe0b95783'
-    	text = word
-    	res = requests.post(url, data={'key': key, 'text': text, 'lang': lang}) 
->>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
     	data = res.json()
     	translate = data['text']
     	if lang == 'en-ru':
@@ -858,23 +539,7 @@ async def on_message(message):
     	else:
     		await message.channel.send("```" + "Русский: " + str(word) + "\nEnglish: " + str(data['text']) + "```")
 
-<<<<<<< HEAD
-#------------------------------------------------------------------------------
-
-    if "show" in message.content:
-    	embed = discord.Embed()
-    	embed.add_field(name="undefined", value="undefined", inline=False)
-    	await message.channel.send(embed=embed)
-    await client.process_commands(message)
-
 #------------------------------------------------------------------------------
 
 #связь между этим файлом и дискордом
 client.run(config.TOKEN)
-=======
-    	
-print("fuck it works again")
-#связь между этим файлом и дискордом
-client.run(config.TOKEN)
-
->>>>>>> f25a1612405631c0f81aa6d56207cb56ea48dab1
