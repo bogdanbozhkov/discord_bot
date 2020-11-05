@@ -66,27 +66,25 @@ async def r6(ctx, arg1, arg2):
 			soup = BeautifulSoup(contents, 'html.parser')
 			l = 0
 			for name_box in soup.find_all('div', {'class': 'trn-text--dimmed'}):
-				name = name_box.text.strip()
 				count_classes = count_classes + 1
 				name = name_box.text.strip()
 				if count_classes == 2:
 					mmr_general = name
 			count_classes = 0
-			mmr_general_rank = "asd"
+			mmr_general_rank = "-"
 			mmr_general_kd = 0
-			mmr_general_wl = "asd"
+			mmr_general_wl = "-"
 			matсhes_played = 0
-			time_played = "asd"
-			level = "asd"
+			time_played = "-"
+			level = "-"
 			wins = 0
 			losses = 0
-			headshots = "asd"
-			headshots_percent = "asd"
-			kills = "asd"
-			deaths = "asd"
-			rank_icon = "asd"
-
-
+			headshots = "-"
+			headshots_percent = "-"
+			deaths = "-"
+			rank_icon = "-"
+			melee_kills = "-"
+			best_mmr = "-"
 			for name_box in soup.find_all('div', {'class': 'trn-defstat__value'}):
 				name = name_box.text.strip()
 				count_classes = count_classes + 1
@@ -110,9 +108,14 @@ async def r6(ctx, arg1, arg2):
 					wins = name
 				if count_classes == 22:
 					losses = name
+				if count_classes == 27:
+					melee_kills = name
+				if count_classes == 60:
+					best_mmr = name
 			count_classes = 0
-
-
+			headshots_percent = headshots_percent[0:-1]
+			headshots = headshots.replace(",","")
+			kills = float(headshots)/float(headshots_percent)
 			for name_box in soup.find_all('div', {'class': 'trn-defstat__value'}):
 				name = name_box.text.strip()
 				count_classes = count_classes + 1
@@ -125,7 +128,7 @@ async def r6(ctx, arg1, arg2):
 
 			image_tags = soup.find_all('img')
 			count_classes = 0
-			avatar = "asd"
+			avatar = "-"
 			for image_tag in image_tags:
 				count_classes = count_classes + 1
 				if count_classes == 2:
@@ -135,9 +138,9 @@ async def r6(ctx, arg1, arg2):
 
 			image_tags = soup.find_all('img')
 			count_classes = 0
-			operator1 = "asd"
-			operator2 = "asd"
-			operator3 = "asd"
+			operator1 = "-"
+			operator2 = "-"
+			operator3 = "-"
 			for image_tag in image_tags:
 				count_classes = count_classes + 1
 				if count_classes == 3:
@@ -165,20 +168,22 @@ async def r6(ctx, arg1, arg2):
 			embed.set_author(name=nick_name, icon_url=avatar)
 			embed.set_thumbnail(url=avatar)
 			embed.add_field(name="Текущий ранг", value=mmr_general + " , " + mmr_general_rank, inline=False)
+			if mmr_general_rank != "-":
+				embed.add_field(name="Лучший ранг в текущем сезоне", value=best_mmr + " MMR", inline=False)
 			embed.add_field(name="K/D", value=mmr_general_kd, inline=True)
 			embed.add_field(name="W/L", value=mmr_general_wl, inline=True)
-			embed.add_field(name="Время", value=time_played, inline=False)
+			embed.add_field(name="Время", value=time_played[0:-1]+" ч.", inline=False)
 			embed.add_field(name="Побед", value=wins, inline=True)
 			embed.add_field(name="Поражений", value=losses, inline=True)
 			embed.add_field(name="Любимые оперативники", value=operator1 + "   " + operator2 + "   " + operator3, inline=False)
 			#embed.add_field(name="Level", value=level, inline=True)
-			embed.add_field(name="Headshots", value=headshots + " (" + headshots_percent + ")", inline=False)
-			#embed.add_field(name="Kills", value=kills, inline=True)
-			embed.add_field(name="Deaths", value=deaths, inline=False)
-			embed.set_footer(text="-_-")
+			embed.add_field(name="Убийства", value=int(kills*100), inline=False)
+			embed.add_field(name="Убийства в голову", value=headshots + " (" + headshots_percent + "%)", inline=False)
+			embed.add_field(name="Убийства в рукопашную", value=melee_kills, inline=False)
+			embed.add_field(name="Смерти", value=deaths.replace(",",""), inline=False)
+			embed.set_footer(text="by deusesone ^_^")
 			await ctx.send(embed=embed)
-			print(level)
-			print(kills)
+
 		except TypeError:
 			await ctx.send("```css\n Ошибка :(```")
 	else:
@@ -443,11 +448,11 @@ async def on_message(message):
     		output_file.write(r.text)
     	with open('covid.html', 'r', encoding="utf-8") as f:
     		contents = f.read()
-    		covid_general = 'asd'
-    		covid_death = 'asd'
-    		covid_last_day = 'asd'
-    		covid_recovered = 'asd'
-    		covid_tests = 'asd'
+    		covid_general = '-'
+    		covid_death = '-'
+    		covid_last_day = '-'
+    		covid_recovered = '-'
+    		covid_tests = '-'
     		soup = BeautifulSoup(contents, 'lxml')
     		count_classes = 0
     		#поиск по всем классам веб страницы с указанным именем
@@ -542,6 +547,4 @@ async def on_message(message):
     await client.process_commands(message)
 
 #------------------------------------------------------------------------------
-
-#связь между этим файлом и дискордом
 client.run(config.TOKEN)
