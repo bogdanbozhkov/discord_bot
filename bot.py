@@ -18,7 +18,63 @@ from youtube_dl import YoutubeDL
 import urllib
 import urllib.request
 import urllib.parse, urllib.request, re
+import yt_search
 
+'''
+yt = yt_search.build("AIzaSyC84P0bWIuF0vHgdvzbVvm3jfrATZfumUE")
+search_result = yt.search("kendrick", sMax=12, sType=["video"])
+i = 0
+j = 0
+a1 = ''
+a2 = ''
+a3 = ''
+a4 = ''
+a5 = ''
+a6 = ''
+a7 = ''
+a8 = ''
+a9 = ''
+a10 = ''
+b1 = ''
+b2 = ''
+b3 = ''
+b4 = ''
+b5 = ''
+b6 = ''
+b7 = ''
+b8 = ''
+b9 = ''
+b10 = ''
+for indexes in search_result.title:
+	if search_result.videoId[i] != None:
+		j+=1
+		print(search_result.title[i])
+		print(search_result.videoId[i])
+		if j == 1:
+			a1 = search_result.title[i]
+		if j == 2:
+			a2 = search_result.title[i]
+		if j == 3:
+			a3 = search_result.title[i]
+		if j == 4:
+			a4 = search_result.title[i]
+		if j == 5:
+			a5 = search_result.title[i]
+		if j == 6:
+			a6 = search_result.title[i]
+		if j == 7:
+			a7 = search_result.title[i]
+		if j == 8:
+			a8 = search_result.title[i]
+		if j == 9:
+			a9 = search_result.title[i]
+		if j == 10:
+			a10 = search_result.title[i]
+	i+=1
+print(a10)
+#print(search_result.title[0])
+#print(search_result.videoId[0])
+'''
 #------------------------------------------------------------------------------
 
 #создание класса
@@ -46,6 +102,7 @@ async def on_member_join(member):
 	await member.dm_channel.send(f'Приветствую {member.name} на нашем сервере!')
 	role = discord.utils.get(member.guild.roles, id=int(688128825112264746))
 	await member.add_roles(role)
+	await client.process_commands(message)
 
 #------------------------------------------------------------------------------
 
@@ -308,6 +365,7 @@ async def join(ctx):
 
 @client.command()
 async def search(ctx, *, search):
+	'''
 	query_string = urllib.parse.urlencode({
 	'search_query': search
 	})
@@ -322,7 +380,77 @@ async def search(ctx, *, search):
 	print(query_string)
 	print(search_results)
 	print(htm_content)
-
+'''
+	yt = yt_search.build("AIzaSyC84P0bWIuF0vHgdvzbVvm3jfrATZfumUE")
+	search_result = yt.search(search, sMax=12, sType=["video"])
+	i = 0
+	j = 0
+	a1 = ''
+	a2 = ''
+	a3 = ''
+	a4 = ''
+	a5 = ''
+	a6 = ''
+	a7 = ''
+	a8 = ''
+	a9 = ''
+	a10 = ''
+	b1 = ''
+	b2 = ''
+	b3 = ''
+	b4 = ''
+	b5 = ''
+	b6 = ''
+	b7 = ''
+	b8 = ''
+	b9 = ''
+	b10 = ''
+	for indexes in search_result.title:
+		if search_result.videoId[i] != None:
+			j+=1
+			if j == 1:
+				a1 = search_result.title[i]
+				b1 = search_result.videoId[i]
+			if j == 2:
+				a2 = search_result.title[i]
+				b2 = search_result.videoId[i]
+			if j == 3:
+				a3 = search_result.title[i]
+				b3 = search_result.videoId[i]
+			if j == 4:
+				a4 = search_result.title[i]
+				b4 = search_result.videoId[i]
+			if j == 5:
+				a5 = search_result.title[i]
+				b5 = search_result.videoId[i]
+			if j == 6:
+				a6 = search_result.title[i]
+				b6 = search_result.videoId[i]
+			if j == 7:
+				a7 = search_result.title[i]
+				b7 = search_result.videoId[i]
+			if j == 8:
+				a8 = search_result.title[i]
+				b8 = search_result.videoId[i]
+			if j == 9:
+				a9 = search_result.title[i]
+				b9 = search_result.videoId[i]
+			if j == 10:
+				a10 = search_result.title[i]
+				b10 = search_result.videoId[i]
+		i+=1
+	embed=discord.Embed(description="Результаты поиска:")
+	embed.add_field(name="1", value=a1, inline=False)
+	embed.add_field(name="2. ", value=a2, inline=False)
+	embed.add_field(name="3. ", value=a3, inline=False)
+	embed.add_field(name="4. ", value=a4, inline=False)
+	embed.add_field(name="5. ", value=a5, inline=False)
+	embed.add_field(name="6. ", value=a6, inline=False)
+	embed.add_field(name="7. ", value=a7, inline=False)
+	embed.add_field(name="8. ", value=a8, inline=False)
+	embed.add_field(name="9. ", value=a9, inline=False)
+	embed.add_field(name="10. ", value=a10, inline=False)
+	await ctx.send(embed=embed)
 
 #------------------------------------------------------------------------------
 
@@ -338,6 +466,7 @@ async def play(ctx, url):
 		URL = info['formats'][0]['url']
 		voice.play(FFmpegPCMAudio(URL, **FFMPEG_OPTIONS))
 		voice.is_playing()
+		print(URL)
 	else:
 		await ctx.send("Already playing song")
 		return
@@ -373,6 +502,8 @@ async def on_message(message):
         return
 
 #-------------------------------------------------------------------------------
+    if "Настя.кинь трапа" in message.content:
+        await message.channel.send(file=discord.File("/home/deusesone/bot/trap/" + random.choice(os.listdir("trap/"))))
 
 #простой ответ на оскорбление
     if 'аст' in message.content and 'шлюха' in message.content:
