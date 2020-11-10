@@ -24,11 +24,11 @@ import yt_search
 video_names = []
 video_ids = []
 len_video_names = 0
-#------------------------------------------------------------------------------
+
 #создание класса
 client = commands.Bot(command_prefix = '!', intents = discord.Intents.all())
 
-#------------------------------------------------------------------------------
+
 
 @client.event
 async def on_ready():
@@ -36,13 +36,13 @@ async def on_ready():
 	print('We have logged in as {0.user}'.format(client))
 	print('version 0.0.1')
 
-#------------------------------------------------------------------------------
+
 
 #для работы с openweatherapi
 
 list_of_nicknames = []
 
-#------------------------------------------------------------------------------
+
 
 @client.event
 async def on_member_join(member):
@@ -52,7 +52,7 @@ async def on_member_join(member):
 	await member.add_roles(role)
 	await client.process_commands(message)
 
-#------------------------------------------------------------------------------
+
 
 @client.command(pass_context=True)
 async def r6(ctx, arg1, arg2):
@@ -293,7 +293,7 @@ async def r6(ctx, arg1, arg2):
 					await ctx.send('```css\n Ошибка :( ```')
 			else:
 				await ctx.send("```css\n Ошибка :(```")
-#------------------------------------------------------------------------------
+
 
 players = {}
 
@@ -309,7 +309,7 @@ async def join(ctx):
 	else:
 		voice = await channel.connect()
 
-#------------------------------------------------------------------------------
+
 
 @client.command()
 async def search(ctx, *, search):
@@ -334,7 +334,7 @@ async def search(ctx, *, search):
 	await ctx.send(embed=embed)
 
 
-#------------------------------------------------------------------------------
+
 
 @client.command(pass_context=True)
 async def play(ctx, request):
@@ -360,7 +360,6 @@ async def play(ctx, request):
 				embed.set_author(name="Сейчас играет:")
 				embed.set_footer(text="by deusesone ^_^")
 				await ctx.send(embed=embed)
-
 			else:
 				await ctx.send("Already playing song")
 				return
@@ -389,29 +388,33 @@ async def play(ctx, request):
 			return
 
 
-#------------------------------------------------------------------------------
-
 
 @client.command(pass_context=True)
 async def pause(ctx):
 	voice = get(client.voice_clients, guild=ctx.guild)
 	voice.pause()
 
+
+
 @client.command(pass_context=True)
 async def stop(ctx):
 	voice = get(client.voice_clients, guild=ctx.guild)
 	voice.stop()
+
+
 
 @client.command(pass_context=True)
 async def resume(ctx):
 	voice = get(client.voice_clients, guild=ctx.guild)
 	voice.resume()
 
+
+
 @client.command(pass_context=True)
 async def leave(ctx):
 	await ctx.voice_client.disconnect()
 
-#------------------------------------------------------------------------------
+
 
 #ожидание ивента
 @client.event
@@ -420,7 +423,7 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-#-------------------------------------------------------------------------------
+
     if "Настя.кинь трапа" in message.content:
         await message.channel.send(file=discord.File("/home/deusesone/bot/trap/" + random.choice(os.listdir("trap/"))))
 
@@ -428,45 +431,45 @@ async def on_message(message):
     if 'аст' in message.content and 'шлюха' in message.content:
     	await message.channel.send('ты ебать спермобак я твой рот ебала')
 
-#-------------------------------------------------------------------------------
+
 
 #приветствие
     if 'Настя.привет' in message.content:
         await message.channel.send('Прив всем в этом чатике :3', tts = True)
         await message.channel.send('Чтобы посмотреть, что я умею, напишите ```fix\nНастя.команды```')
 
-#-------------------------------------------------------------------------------
+
 
 #список функций
     if message.content.startswith('Настя.команды'):
     	await message.channel.send('```python\n>>> Список команд:\n[1] Настя.музыка\n[2] Настя.анекдот\n[3] Настя.курс валюты\n[4] Настя.коронавирус\n[5] Настя.погода <Город> (на английском языке)\n[6] Настя.радуга\n[7] Настя.перевод <выражение на русском или английском> ```')
 
-#-------------------------------------------------------------------------------
+
 
 #отправка рандомной фотки трапа из папки
     if 'Настя.музыка' in message.content:
     	await message.channel.send("```python\n>>> О команде Настя.музыка \n[1] !join - пригласить в голосовой канал \n[2] !play <ссылка видео youtube> -  включить трек \n[3] !pause  -  пауза \n[4] !resume - продолжить \n[5] !stop - остановить \n[6] !leave - отсоединить```")
 
-#-------------------------------------------------------------------------------
+
 
 #отправка сисек дарины из трапа
     if 'Настя.сиськи дарины' in message.content:
     	image = random.choice(os.listdir("darina/"))
     	await message.channel.send(file=discord.File("darina/" + image))
 
-#-------------------------------------------------------------------------------
+
 
 #ответ на спасибо
     if message.content.startswith('спасибо') or message.content.startswith('Cпасибо'):#исправить для большего кол-ва реакций
     	await message.channel.send('^_^')
 
-#-------------------------------------------------------------------------------
+
 
 #да -> пизда
     if (message.content == 'да' or message.content == 'Да'):
     	await message.channel.send('пизда')
 
-#-------------------------------------------------------------------------------
+
 
 #отправка анекдота с сайта anektod-z.ru
     if 'Настя.анекдот' in message.content:
@@ -483,12 +486,12 @@ async def on_message(message):
     			await message.channel.send('```' + joke + '```')
     			break
     	os.remove("test.html")
-#-------------------------------------------------------------------------------
+
 
     if message.content == "Настя.радуга":
     	await message.channel.send("```python\n>>> О команде Настя.радуга \n[1] !r6 stats <никнейм> - подробности об игроке \n[2] !r6 start <никнейм> - отсчет ммр с текущего момента \n[3] !r6 check <никнейм> - подсчет проебанного ммр```")
 
-#-------------------------------------------------------------------------------
+
 
 #показывает статистику коронавируса
     if 'Настя.коронавирус' in message.content:
@@ -534,7 +537,7 @@ async def on_message(message):
     		await message.channel.send(embed=embed)
     		#await message.channel.send("```css\n[" + name_actual + "]\nПроведено тестов " + covid_tests + "\nОбщее число случаев - " + covid_general + "\nЧеловек умерло - " + covid_death + "\nЧеловек выздоровело - " + covid_recovered + "\nСлучая заболевания за последние сутки - " + covid_last_day +'```')
     	os.remove("covid.html")
-#-------------------------------------------------------------------------------
+
 
 #отправка погоды в зависимости от указанного в сообщении города
     if message.content.startswith("Настя.погода"):
@@ -555,7 +558,7 @@ async def on_message(message):
     	except Exception:
     		await message.channel.send('```css\n Ошибка :( ```')
 
-#------------------------------------------------------------------------------
+
 
     #отправка курса валюты
     if 'Настя.курс валюты' in message.content:
@@ -575,7 +578,7 @@ async def on_message(message):
     	print(bitc_to_rub)
     	await message.channel.send('```python\nКурс евро - ' + str(euro) + " Российский рубль" + '\nКурс доллара - ' + str(dollar) + " Российский рубль" + '\nКурс биткоина - ' + str(bitc_to_rub) + " Российский рубль" +'```')
 
-#------------------------------------------------------------------------------
+
 
     if message.content.startswith("Настя.перевод"):
     	word = message.content[14:len(message.content)]
@@ -596,5 +599,5 @@ async def on_message(message):
 
     await client.process_commands(message)
 
-#------------------------------------------------------------------------------
+
 client.run(config.TOKEN)
