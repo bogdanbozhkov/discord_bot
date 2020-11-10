@@ -20,8 +20,11 @@ import urllib.request
 import urllib.parse, urllib.request, re
 import yt_search
 
-#------------------------------------------------------------------------------
 
+video_names = []
+video_ids = []
+len_video_names = 0
+#------------------------------------------------------------------------------
 #создание класса
 client = commands.Bot(command_prefix = '!', intents = discord.Intents.all())
 
@@ -310,11 +313,11 @@ async def join(ctx):
 
 @client.command()
 async def search(ctx, *, search):
+	video_names.clear()
+	video_ids.clear()
 	yt = yt_search.build(config.yt_key)
 	search_result = yt.search(search, sMax=12, sType=["video"])
 	i = 0
-	video_names = []
-	video_ids = []
 	for indexes in search_result.title:
 		if search_result.videoId[i] != None:
 			video_names.append(search_result.title[i])
@@ -322,28 +325,70 @@ async def search(ctx, *, search):
 		i+=1
 	embed=discord.Embed(description="Результаты поиска:")
 	j = 0
-	for j in range(10):
+	print(video_names)
+	len_video_names = len(video_names)
+	print(len_video_names)
+	for j in range(len_video_names):
 		embed.add_field(name=str(j+1), value=video_names[j], inline=False)
+	embed.set_footer(text="by deusesone ^_^")
 	await ctx.send(embed=embed)
+
 
 #------------------------------------------------------------------------------
 
 @client.command(pass_context=True)
-async def play(ctx, url):
-	YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist':'True'}
-	FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
-	voice = get(client.voice_clients, guild=ctx.guild)
+async def play(ctx, request):
+	try:
+		if int(request) > 0 and int(request) < len(video_names) + 1:
+			i = 0
+			for i in range(len(video_names)):
+				if int(request) - 1 == i:
+					url = video_ids[i]
+			YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist':'True'}
+			FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
+			voice = get(client.voice_clients, guild=ctx.guild)
+			if not voice.is_playing():
+				with YoutubeDL(YDL_OPTIONS) as ydl:
+					info = ydl.extract_info(url, download=False)
+					video_title = info.get('title')
+					icon = info.get('thumbnail')
+					URL = info['formats'][0]['url']
+					voice.play(FFmpegPCMAudio(URL, **FFMPEG_OPTIONS))
+					voice.is_playing()
+				embed=discord.Embed(title=video_title, url = "https://www.youtube.com/watch?v=" + url)
+				embed.set_thumbnail(url=icon)
+				embed.set_author(name="Сейчас играет:")
+				embed.set_footer(text="by deusesone ^_^")
+				await ctx.send(embed=embed)
 
-	if not voice.is_playing():
-		with YoutubeDL(YDL_OPTIONS) as ydl:
-			info = ydl.extract_info(url, download=False)
-		URL = info['formats'][0]['url']
-		voice.play(FFmpegPCMAudio(URL, **FFMPEG_OPTIONS))
-		voice.is_playing()
-		print(URL)
-	else:
-		await ctx.send("Already playing song")
-		return
+			else:
+				await ctx.send("Already playing song")
+				return
+		else:
+			await ctx.send('```css\n Ошибка :( ```')
+	except Exception:
+		url = request
+		YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist':'True'}
+		FFMPEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
+		voice = get(client.voice_clients, guild=ctx.guild)
+		if not voice.is_playing():
+			with YoutubeDL(YDL_OPTIONS) as ydl:
+				info = ydl.extract_info(url, download=False)
+				video_title = info.get('title')
+				icon = info.get('thumbnail')
+				URL = info['formats'][0]['url']
+				voice.play(FFmpegPCMAudio(URL, **FFMPEG_OPTIONS))
+				voice.is_playing()
+			embed=discord.Embed(title=video_title, url = url)
+			embed.set_thumbnail(url=icon)
+			embed.set_author(name="Сейчас играет:")
+			embed.set_footer(text="by deusesone ^_^")
+			await ctx.send(embed=embed)
+		else:
+			await ctx.send("Already playing song")
+			return
+
+
 #------------------------------------------------------------------------------
 
 
