@@ -20,61 +20,6 @@ import urllib.request
 import urllib.parse, urllib.request, re
 import yt_search
 
-'''
-yt = yt_search.build("AIzaSyC84P0bWIuF0vHgdvzbVvm3jfrATZfumUE")
-search_result = yt.search("kendrick", sMax=12, sType=["video"])
-i = 0
-j = 0
-a1 = ''
-a2 = ''
-a3 = ''
-a4 = ''
-a5 = ''
-a6 = ''
-a7 = ''
-a8 = ''
-a9 = ''
-a10 = ''
-b1 = ''
-b2 = ''
-b3 = ''
-b4 = ''
-b5 = ''
-b6 = ''
-b7 = ''
-b8 = ''
-b9 = ''
-b10 = ''
-for indexes in search_result.title:
-	if search_result.videoId[i] != None:
-		j+=1
-		print(search_result.title[i])
-		print(search_result.videoId[i])
-		if j == 1:
-			a1 = search_result.title[i]
-		if j == 2:
-			a2 = search_result.title[i]
-		if j == 3:
-			a3 = search_result.title[i]
-		if j == 4:
-			a4 = search_result.title[i]
-		if j == 5:
-			a5 = search_result.title[i]
-		if j == 6:
-			a6 = search_result.title[i]
-		if j == 7:
-			a7 = search_result.title[i]
-		if j == 8:
-			a8 = search_result.title[i]
-		if j == 9:
-			a9 = search_result.title[i]
-		if j == 10:
-			a10 = search_result.title[i]
-	i+=1
-print(a10)
-#print(search_result.title[0])
-#print(search_result.videoId[0])
-'''
 #------------------------------------------------------------------------------
 
 #создание класса
@@ -91,7 +36,7 @@ async def on_ready():
 #------------------------------------------------------------------------------
 
 #для работы с openweatherapi
-appid = "4c595575f1e5e536934d87d5a03fb491"
+
 list_of_nicknames = []
 
 #------------------------------------------------------------------------------
@@ -365,91 +310,20 @@ async def join(ctx):
 
 @client.command()
 async def search(ctx, *, search):
-	'''
-	query_string = urllib.parse.urlencode({
-	'search_query': search
-	})
-	htm_content = urllib.request.urlopen(
-	'http://www.youtube.com/results?' + query_string
-	)
-	search_results = re.findall(r"watch\?v=(\S{11})", htm_content.read().decode())
-	number_of_videos = 0
-	i = 0
-	for number_of_videos in range(3):
-		await ctx.send('http://www.youtube.com/watch?v=' + search_results[number_of_videos])
-	print(query_string)
-	print(search_results)
-	print(htm_content)
-'''
-	yt = yt_search.build("AIzaSyC84P0bWIuF0vHgdvzbVvm3jfrATZfumUE")
+	yt = yt_search.build(config.yt_key)
 	search_result = yt.search(search, sMax=12, sType=["video"])
 	i = 0
-	j = 0
-	a1 = ''
-	a2 = ''
-	a3 = ''
-	a4 = ''
-	a5 = ''
-	a6 = ''
-	a7 = ''
-	a8 = ''
-	a9 = ''
-	a10 = ''
-	b1 = ''
-	b2 = ''
-	b3 = ''
-	b4 = ''
-	b5 = ''
-	b6 = ''
-	b7 = ''
-	b8 = ''
-	b9 = ''
-	b10 = ''
+	video_names = []
+	video_ids = []
 	for indexes in search_result.title:
 		if search_result.videoId[i] != None:
-			j+=1
-			if j == 1:
-				a1 = search_result.title[i]
-				b1 = search_result.videoId[i]
-			if j == 2:
-				a2 = search_result.title[i]
-				b2 = search_result.videoId[i]
-			if j == 3:
-				a3 = search_result.title[i]
-				b3 = search_result.videoId[i]
-			if j == 4:
-				a4 = search_result.title[i]
-				b4 = search_result.videoId[i]
-			if j == 5:
-				a5 = search_result.title[i]
-				b5 = search_result.videoId[i]
-			if j == 6:
-				a6 = search_result.title[i]
-				b6 = search_result.videoId[i]
-			if j == 7:
-				a7 = search_result.title[i]
-				b7 = search_result.videoId[i]
-			if j == 8:
-				a8 = search_result.title[i]
-				b8 = search_result.videoId[i]
-			if j == 9:
-				a9 = search_result.title[i]
-				b9 = search_result.videoId[i]
-			if j == 10:
-				a10 = search_result.title[i]
-				b10 = search_result.videoId[i]
+			video_names.append(search_result.title[i])
+			video_ids.append(search_result.videoId[i])
 		i+=1
 	embed=discord.Embed(description="Результаты поиска:")
-	embed.add_field(name="1", value=a1, inline=False)
-	embed.add_field(name="2. ", value=a2, inline=False)
-	embed.add_field(name="3. ", value=a3, inline=False)
-	embed.add_field(name="4. ", value=a4, inline=False)
-	embed.add_field(name="5. ", value=a5, inline=False)
-	embed.add_field(name="6. ", value=a6, inline=False)
-	embed.add_field(name="7. ", value=a7, inline=False)
-	embed.add_field(name="8. ", value=a8, inline=False)
-	embed.add_field(name="9. ", value=a9, inline=False)
-	embed.add_field(name="10. ", value=a10, inline=False)
+	j = 0
+	for j in range(10):
+		embed.add_field(name=str(j+1), value=video_names[j], inline=False)
 	await ctx.send(embed=embed)
 
 #------------------------------------------------------------------------------
@@ -625,7 +499,7 @@ async def on_message(message):
     		number_of_letters = number_of_letters + 1
     	city_name = message.content[12:number_of_letters]
     	try:
-    		res = requests.get("http://api.openweathermap.org/data/2.5/weather", params={'q': city_name, 'units': 'metric', 'lang': 'ru', 'APPID': appid})
+    		res = requests.get("http://api.openweathermap.org/data/2.5/weather", params={'q': city_name, 'units': 'metric', 'lang': 'ru', 'APPID': config.appid})
     		data = res.json()
     		weather_temperature = data['main']['temp']
     		weather_conditions = data['weather'][0]['description']
