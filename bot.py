@@ -355,7 +355,7 @@ async def play(ctx, request):
 					URL = info['formats'][0]['url']
 					voice.play(FFmpegPCMAudio(URL, **FFMPEG_OPTIONS))
 					voice.is_playing()
-				embed=discord.Embed(title=video_title, url = "https://www.youtube.com/watch?v=" + url)
+				embed=discord.Embed(title=video_title, url = "https://www.youtube.com/watch?v=" + url, description=f"Предложено {ctx.author}")
 				embed.set_thumbnail(url=icon)
 				embed.set_author(name="Сейчас играет:")
 				embed.set_footer(text="by deusesone ^_^")
@@ -378,7 +378,7 @@ async def play(ctx, request):
 				URL = info['formats'][0]['url']
 				voice.play(FFmpegPCMAudio(URL, **FFMPEG_OPTIONS))
 				voice.is_playing()
-			embed=discord.Embed(title=video_title, url = url)
+			embed=discord.Embed(title=video_title, url = url, description=f"Предложено {ctx.author}")
 			embed.set_thumbnail(url=icon)
 			embed.set_author(name="Сейчас играет:")
 			embed.set_footer(text="by deusesone ^_^")
