@@ -66,16 +66,19 @@ async def r6(ctx, arg1, arg2):
 				output_file.write(r.text)
 			with open('stat.html', 'r', encoding="utf-8") as f:
 				contents = f.read()
-			os.remove("stat.html")
+			#os.remove("stat.html")
 			mmr_general = 1
 			count_classes = 0
 			soup = BeautifulSoup(contents, 'html.parser')
 			l = 0
+			best_mmr = "-"
 			for name_box in soup.find_all('div', {'class': 'trn-text--dimmed'}):
 				count_classes = count_classes + 1
 				name = name_box.text.strip()
-				if count_classes == 2:
+				if count_classes == 3:
 					mmr_general = name
+				if count_classes == 13:
+					best_mmr = name
 			count_classes = 0
 			mmr_general_rank = "-"
 			mmr_general_kd = 0
@@ -90,7 +93,6 @@ async def r6(ctx, arg1, arg2):
 			deaths = "-"
 			rank_icon = "-"
 			melee_kills = "-"
-			best_mmr = "-"
 			for name_box in soup.find_all('div', {'class': 'trn-defstat__value'}):
 				name = name_box.text.strip()
 				count_classes = count_classes + 1
@@ -98,27 +100,27 @@ async def r6(ctx, arg1, arg2):
 					level = name
 				if count_classes == 8:
 					kills = name
-				if count_classes == 19:
-					deaths = name
-				if count_classes == 20:
-					headshots = name
-				if count_classes == 17:
-					headshots_percent = name
-				if count_classes == 57:
-					mmr_general_rank = name
 				if count_classes == 18:
+					deaths = name
+				if count_classes == 19:
+					headshots = name
+				if count_classes == 16:
+					headshots_percent = name
+				if count_classes == 66:
+					mmr_general_rank = name
+				if count_classes == 17:
 					mmr_general_kd = name
-				if count_classes == 24:
+				if count_classes == 23:
 					time_played = name
-				if count_classes == 21:
+				if count_classes == 20:
 					wins = name
-				if count_classes == 22:
+				if count_classes == 21:
 					losses = name
 				if count_classes == 27:
 					melee_kills = name
-				if count_classes == 60:
-					best_mmr = name
 			count_classes = 0
+			print(headshots)
+			print(headshots_percent)
 			headshots_percent = headshots_percent[0:-1]
 			headshots = headshots.replace(",","")
 			kills = float(headshots)/float(headshots_percent)
@@ -126,9 +128,9 @@ async def r6(ctx, arg1, arg2):
 				name = name_box.text.strip()
 				count_classes = count_classes + 1
 				name = name_box.text.strip()
-				if count_classes == 25:
+				if count_classes == 24:
 					matсhes_played = name
-				if count_classes == 23:
+				if count_classes == 22:
 					mmr_general_wl = name
 
 
@@ -156,7 +158,8 @@ async def r6(ctx, arg1, arg2):
 				if count_classes == 5:
 					operator3 = image_tag.get('title')
 
-
+			#print(mmr_general)
+			#print(mmr_general_rank)
 			if mmr_general_rank.startswith("COPPER"):
 				embed=discord.Embed(title="Статистика", url="https://r6.tracker.network/profile/pc/" + nick_name, description='Матчей сыграно: ' + matсhes_played, color=0xd24b2d)
 			if mmr_general_rank.startswith("BRONZE"):
