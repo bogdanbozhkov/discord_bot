@@ -100,21 +100,21 @@ async def r6(ctx, arg1, arg2):
 					level = name
 				if count_classes == 8:
 					kills = name
-				if count_classes == 18:
-					deaths = name
 				if count_classes == 19:
+					deaths = name
+				if count_classes == 20:
 					headshots = name
-				if count_classes == 16:
+				if count_classes == 17:
 					headshots_percent = name
 				if count_classes == 66:
 					mmr_general_rank = name
-				if count_classes == 17:
+				if count_classes == 18:
 					mmr_general_kd = name
-				if count_classes == 23:
+				if count_classes == 24:
 					time_played = name
-				if count_classes == 20:
-					wins = name
 				if count_classes == 21:
+					wins = name
+				if count_classes == 22:
 					losses = name
 				if count_classes == 27:
 					melee_kills = name
@@ -128,9 +128,9 @@ async def r6(ctx, arg1, arg2):
 				name = name_box.text.strip()
 				count_classes = count_classes + 1
 				name = name_box.text.strip()
-				if count_classes == 24:
+				if count_classes == 25:
 					matсhes_played = name
-				if count_classes == 22:
+				if count_classes == 23:
 					mmr_general_wl = name
 
 
